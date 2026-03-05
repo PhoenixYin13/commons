@@ -3,23 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Commons — A Journal for Everyone</title>
+<title>The Commons · 公地 — A Journal for Every Mind</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --black: #0a0a0a;
-  --white: #fafafa;
-  --gray-100: #f0f0f0;
-  --gray-200: #e0e0e0;
-  --gray-400: #999;
-  --gray-600: #555;
-  --rule: 1px solid #0a0a0a;
-  --rule-light: 1px solid #e0e0e0;
+  --black: #0c0c0c;
+  --white: #f8f7f4;
+  --gray-100: #eeede9;
+  --gray-200: #dddbd5;
+  --gray-400: #9b9890;
+  --gray-600: #5a5750;
+  --ai-color: #1a3a2a;
+  --ai-accent: #2d6a4f;
+  --rule: 1px solid #0c0c0c;
+  --rule-light: 1px solid #dddbd5;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -31,171 +33,162 @@ body {
   cursor: none;
 }
 
-/* CUSTOM CURSOR */
-.cursor {
+/* CURSOR */
+#cursor {
   position: fixed;
-  width: 8px;
-  height: 8px;
+  width: 8px; height: 8px;
   background: var(--black);
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease;
+  transform: translate(-50%,-50%);
+  transition: width .15s, height .15s, background .15s;
 }
-.cursor.expand {
-  transform: translate(-50%, -50%) scale(4);
+#cursor.big {
+  width: 32px; height: 32px;
   background: transparent;
   border: 1px solid var(--black);
 }
 
-/* ── TOP BAR ── */
+/* TOP BAR */
 .top-bar {
   border-bottom: var(--rule);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 48px;
+  padding: 7px 48px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gray-600);
-}
-
-.lang-toggle {
-  display: flex;
-  gap: 12px;
-}
-
-.lang-btn {
-  background: none;
-  border: none;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--gray-400);
-  cursor: none;
-  padding: 2px 6px;
-  transition: color 0.2s, background 0.2s;
 }
 
-.lang-btn.active {
-  background: var(--black);
-  color: var(--white);
-}
-
-/* ── MASTHEAD ── */
+/* MASTHEAD */
 .masthead {
   padding: 48px 48px 0;
+  text-align: center;
   border-bottom: 3px solid var(--black);
 }
 
-.masthead-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding-bottom: 32px;
-  border-bottom: var(--rule);
-  margin-bottom: 0;
-}
-
-.journal-eyebrow {
+.journal-vol {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
-  letter-spacing: 0.4em;
+  letter-spacing: .4em;
   text-transform: uppercase;
   color: var(--gray-400);
   margin-bottom: 20px;
-  animation: fadeUp 0.8s ease both;
 }
 
 .journal-name {
   font-family: 'EB Garamond', serif;
-  font-size: clamp(64px, 12vw, 128px);
+  font-size: clamp(72px, 13vw, 140px);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -.02em;
   line-height: 1;
-  animation: fadeUp 0.9s ease both 0.1s;
+  animation: fadeUp .9s ease both;
 }
 
 .journal-name-zh {
   font-family: 'Noto Serif SC', serif;
-  font-size: clamp(20px, 3vw, 32px);
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  color: var(--gray-600);
+  font-size: clamp(18px, 2.5vw, 28px);
+  color: var(--gray-400);
+  letter-spacing: .3em;
   margin-top: 8px;
-  animation: fadeUp 1s ease both 0.2s;
-}
-
-.masthead-rule {
-  width: 48px;
-  height: 1px;
-  background: var(--black);
-  margin: 20px auto;
+  animation: fadeUp 1s ease both .1s;
 }
 
 .masthead-tagline {
-  font-family: 'EB Garamond', serif;
   font-style: italic;
-  font-size: 18px;
+  font-size: 17px;
   color: var(--gray-600);
-  max-width: 480px;
-  animation: fadeUp 1.1s ease both 0.3s;
+  margin: 20px auto;
+  max-width: 520px;
 }
 
-.masthead-meta {
+.masthead-pills {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 16px 0 24px;
+}
+
+.pill {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
-  letter-spacing: 0.15em;
+  letter-spacing: .15em;
   text-transform: uppercase;
-  color: var(--gray-400);
-  width: 100%;
-  margin-top: 24px;
+  padding: 4px 12px;
+  border: var(--rule);
+  color: var(--gray-600);
 }
 
-/* ── NAV ── */
+.pill.ai {
+  background: var(--ai-color);
+  color: #a8d5b5;
+  border-color: var(--ai-color);
+}
+
+/* NAV */
 nav {
   display: flex;
   justify-content: center;
   border-bottom: 2px solid var(--black);
+  background: var(--black);
   overflow-x: auto;
 }
 
-nav a {
+nav button {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
-  letter-spacing: 0.2em;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  color: var(--black);
-  text-decoration: none;
-  padding: 14px 28px;
-  border-right: var(--rule);
-  white-space: nowrap;
-  transition: background 0.15s;
+  color: rgba(248,247,244,.55);
+  background: none;
+  border: none;
+  border-right: 1px solid rgba(255,255,255,.08);
+  padding: 13px 28px;
   cursor: none;
+  white-space: nowrap;
+  transition: color .2s, background .2s;
 }
 
-nav a:first-child { border-left: var(--rule); }
-nav a:hover { background: var(--black); color: var(--white); }
+nav button:hover, nav button.active {
+  color: var(--white);
+  background: rgba(255,255,255,.07);
+}
 
-/* ── MAIN LAYOUT ── */
-.page {
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* CONTAINER */
+.wrap {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 48px;
 }
 
-.content-grid {
+/* SECTION LABEL */
+.sec-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  border-top: 2px solid var(--black);
+  padding-top: 10px;
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* HOME GRID */
+.home-grid {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: 1fr 300px;
+  gap: 0;
   border-bottom: var(--rule);
 }
 
@@ -205,192 +198,174 @@ nav a:hover { background: var(--black); color: var(--white); }
 }
 
 .side-col {
-  padding: 48px 0 48px 40px;
+  padding: 48px 0 48px 36px;
 }
 
-/* ── SECTION LABELS ── */
-.section-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--gray-400);
-  border-top: 2px solid var(--black);
-  padding-top: 10px;
-  margin-bottom: 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.section-label a {
-  color: var(--gray-400);
-  text-decoration: none;
-  font-size: 8px;
-}
-.section-label a:hover { color: var(--black); }
-
-/* ── FEATURED ARTICLE ── */
-.featured-article {
-  margin-bottom: 40px;
-  padding-bottom: 40px;
+/* PAPER CARD */
+.paper-card {
+  padding: 24px 0;
   border-bottom: var(--rule-light);
+  cursor: none;
+  transition: background .15s;
 }
 
-.article-meta {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--gray-400);
-  margin-bottom: 12px;
+.paper-card:hover {
+  background: var(--gray-100);
+  margin: 0 -20px;
+  padding: 24px 20px;
+}
+
+.paper-card-meta {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-.article-meta .discipline {
-  background: var(--black);
-  color: var(--white);
+.badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
   padding: 2px 8px;
 }
 
-.article-title {
+.badge-discipline {
+  background: var(--black);
+  color: var(--white);
+}
+
+.badge-ai {
+  background: var(--ai-color);
+  color: #a8d5b5;
+}
+
+.badge-lang {
+  border: 1px solid var(--gray-200);
+  color: var(--gray-400);
+}
+
+.paper-title {
   font-family: 'EB Garamond', serif;
-  font-size: clamp(22px, 3vw, 34px);
+  font-size: 20px;
   font-weight: 500;
-  line-height: 1.2;
-  margin-bottom: 8px;
-  cursor: none;
+  line-height: 1.25;
+  margin-bottom: 4px;
 }
 
-.article-title:hover { text-decoration: underline; text-decoration-thickness: 1px; }
-
-.article-title-zh {
+.paper-title-zh {
   font-family: 'Noto Serif SC', serif;
-  font-size: 16px;
-  color: var(--gray-600);
-  margin-bottom: 14px;
-  font-weight: 400;
+  font-size: 13px;
+  color: var(--gray-400);
+  margin-bottom: 10px;
 }
 
-.article-abstract {
-  font-size: 15px;
-  line-height: 1.75;
+.paper-abstract {
+  font-size: 14px;
+  line-height: 1.7;
   color: var(--gray-600);
-  margin-bottom: 14px;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.article-footer {
+.paper-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
-  letter-spacing: 0.1em;
   color: var(--gray-400);
+  letter-spacing: .08em;
 }
 
-.read-more {
+.read-btn {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
-  letter-spacing: 0.15em;
+  letter-spacing: .15em;
   text-transform: uppercase;
-  color: var(--black);
-  text-decoration: none;
+  background: none;
+  border: none;
   border-bottom: 1px solid var(--black);
+  cursor: none;
+  color: var(--black);
   padding-bottom: 1px;
-  cursor: none;
 }
 
-/* ── ARTICLE LIST ── */
-.article-list-item {
-  display: grid;
-  grid-template-columns: 48px 1fr;
-  gap: 20px;
-  padding: 20px 0;
-  border-bottom: var(--rule-light);
-  cursor: none;
-  transition: background 0.15s;
-}
-
-.article-list-item:hover { background: var(--gray-100); margin: 0 -20px; padding: 20px; }
-
-.list-num {
+/* LOADING */
+.loading-state {
+  padding: 48px 0;
+  text-align: center;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: var(--gray-200);
-  padding-top: 4px;
-  text-align: right;
-}
-
-.list-title {
-  font-family: 'EB Garamond', serif;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.3;
-  margin-bottom: 4px;
-}
-
-.list-meta {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.1em;
+  font-size: 10px;
+  letter-spacing: .2em;
   color: var(--gray-400);
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.list-lang {
-  border: 1px solid var(--gray-200);
-  padding: 1px 5px;
-  font-size: 8px;
-}
-
-/* ── SIDEBAR ── */
-.side-section {
-  border-top: 2px solid var(--black);
-  padding-top: 12px;
-  margin-bottom: 36px;
-}
-
-.side-title {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--gray-400);
-  margin-bottom: 20px;
 }
 
-.submit-cta {
+.loading-dots::after {
+  content: '';
+  animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+  0%,20% { content: '.'; }
+  40%,60% { content: '..'; }
+  80%,100% { content: '...'; }
+}
+
+/* EMPTY STATE */
+.empty-state {
+  padding: 64px 0;
+  text-align: center;
+  color: var(--gray-400);
+}
+
+.empty-state h3 {
+  font-family: 'EB Garamond', serif;
+  font-size: 24px;
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+}
+
+/* SIDEBAR */
+.cta-box {
   background: var(--black);
   color: var(--white);
   padding: 28px;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
-.submit-cta h3 {
+.cta-box h3 {
   font-family: 'EB Garamond', serif;
   font-size: 22px;
   font-weight: 500;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
-.submit-cta h3 span {
+.cta-box .zh {
   font-family: 'Noto Serif SC', serif;
-  font-size: 14px;
-  color: rgba(250,250,250,0.5);
+  font-size: 12px;
+  color: rgba(248,247,244,.4);
   display: block;
-  margin-top: 2px;
+  margin-bottom: 14px;
 }
 
-.submit-cta p {
+.cta-box p {
   font-size: 13px;
   line-height: 1.65;
-  color: rgba(250,250,250,0.65);
-  margin-bottom: 20px;
+  color: rgba(248,247,244,.6);
+  margin-bottom: 18px;
 }
 
 .cta-btn {
@@ -398,229 +373,89 @@ nav a:hover { background: var(--black); color: var(--white); }
   width: 100%;
   text-align: center;
   padding: 11px;
-  border: 1px solid rgba(250,250,250,0.3);
+  border: 1px solid rgba(248,247,244,.25);
   color: var(--white);
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
-  letter-spacing: 0.2em;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  text-decoration: none;
+  background: none;
   cursor: none;
-  transition: background 0.2s, color 0.2s;
+  transition: background .2s, color .2s;
 }
 
-.cta-btn:hover {
-  background: var(--white);
-  color: var(--black);
+.cta-btn:hover { background: var(--white); color: var(--black); }
+
+.side-section {
+  border-top: 2px solid var(--black);
+  padding-top: 12px;
+  margin-bottom: 28px;
 }
 
-.discipline-list { list-style: none; }
-
-.discipline-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 9px 0;
-  border-bottom: var(--rule-light);
-  font-size: 14px;
-  cursor: none;
-}
-
-.discipline-list li:hover { text-decoration: underline; text-decoration-thickness: 1px; }
-
-.disc-count {
+.side-title {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
   color: var(--gray-400);
+  margin-bottom: 16px;
 }
 
 .stat-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 8px 0;
+  padding: 7px 0;
   border-bottom: var(--rule-light);
-}
-
-.stat-label {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   color: var(--gray-600);
 }
 
-.stat-value {
+.stat-val {
   font-family: 'EB Garamond', serif;
-  font-size: 22px;
-  font-weight: 600;
-}
-
-/* ── DISCIPLINES SECTION ── */
-.disciplines-section {
-  border-top: 3px solid var(--black);
-  padding: 60px 0;
-}
-
-.disciplines-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 40px;
-}
-
-.disciplines-header h2 {
-  font-family: 'EB Garamond', serif;
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 500;
-}
-
-.disciplines-header h2 span {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 18px;
-  color: var(--gray-400);
-  margin-left: 16px;
-}
-
-.disciplines-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border: var(--rule);
-}
-
-.disc-card {
-  padding: 28px 24px;
-  border-right: var(--rule);
-  border-bottom: var(--rule);
-  cursor: none;
-  transition: background 0.2s;
-  position: relative;
-  overflow: hidden;
-}
-
-.disc-card:nth-child(4n) { border-right: none; }
-.disc-card:nth-last-child(-n+4) { border-bottom: none; }
-.disc-card:hover { background: var(--black); color: var(--white); }
-.disc-card:hover .disc-card-zh { color: rgba(250,250,250,0.4); }
-.disc-card:hover .disc-card-count { color: rgba(250,250,250,0.3); }
-
-.disc-card-num {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  color: var(--gray-200);
-  margin-bottom: 12px;
-  transition: color 0.2s;
-}
-.disc-card:hover .disc-card-num { color: rgba(250,250,250,0.2); }
-
-.disc-card-name {
-  font-family: 'EB Garamond', serif;
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.disc-card-zh {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 12px;
-  color: var(--gray-400);
-  transition: color 0.2s;
-  margin-bottom: 12px;
-}
-
-.disc-card-count {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  color: var(--gray-200);
-  transition: color 0.2s;
-}
-
-/* ── MANIFESTO SECTION ── */
-.manifesto-section {
-  border-top: 3px solid var(--black);
-  padding: 60px 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-}
-
-.manifesto-left h2 {
-  font-family: 'EB Garamond', serif;
-  font-size: clamp(32px, 5vw, 56px);
-  font-weight: 500;
-  line-height: 1.1;
-  margin-bottom: 32px;
-}
-
-.manifesto-left h2 em {
-  font-style: italic;
-}
-
-.manifesto-left h2 .zh {
-  font-family: 'Noto Serif SC', serif;
   font-size: 20px;
-  color: var(--gray-400);
-  display: block;
-  margin-top: 8px;
-  font-style: normal;
-}
-
-.manifesto-body p {
-  font-size: 16px;
-  line-height: 1.85;
-  color: var(--gray-600);
-  margin-bottom: 20px;
-}
-
-.manifesto-body p strong {
   color: var(--black);
-  font-weight: 600;
 }
 
-.manifesto-principles {
-  margin-top: 32px;
+.ai-notice {
+  border: 1px solid var(--ai-color);
+  padding: 16px;
+  margin-bottom: 28px;
 }
 
-.principle-item {
-  display: flex;
-  gap: 20px;
-  padding: 18px 0;
-  border-top: var(--rule-light);
-}
-
-.principle-num {
+.ai-notice-label {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  color: var(--gray-400);
-  white-space: nowrap;
-  padding-top: 3px;
+  font-size: 8px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ai-accent);
+  margin-bottom: 8px;
 }
 
-.principle-text {
-  font-size: 15px;
+.ai-notice p {
+  font-size: 13px;
   line-height: 1.6;
+  color: var(--gray-600);
 }
 
-.principle-text strong { display: block; margin-bottom: 2px; }
-.principle-text span { color: var(--gray-600); font-size: 13px; }
-
-/* ── SUBMIT SECTION ── */
-.submit-section {
-  border-top: 3px solid var(--black);
-  padding: 60px 0;
+/* SUBMIT PAGE */
+.submit-wrap {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
-  align-items: start;
+  padding: 60px 0;
 }
 
-.submit-left h2 {
+.submit-info h2 {
   font-family: 'EB Garamond', serif;
   font-size: clamp(28px, 4vw, 44px);
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.15;
   margin-bottom: 20px;
 }
 
-.submit-left h2 .zh {
+.submit-info h2 .zh {
   font-family: 'Noto Serif SC', serif;
   font-size: 18px;
   color: var(--gray-400);
@@ -628,19 +463,19 @@ nav a:hover { background: var(--black); color: var(--white); }
   margin-top: 6px;
 }
 
-.submit-left p {
+.submit-info p {
   font-size: 15px;
   line-height: 1.8;
   color: var(--gray-600);
   margin-bottom: 14px;
 }
 
-.submit-guidelines {
+.rules-list {
   margin-top: 28px;
   border-top: var(--rule);
 }
 
-.guideline-item {
+.rule-item {
   display: flex;
   gap: 16px;
   padding: 14px 0;
@@ -649,38 +484,34 @@ nav a:hover { background: var(--black); color: var(--white); }
   line-height: 1.5;
 }
 
-.g-label {
+.rule-key {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
   color: var(--gray-400);
-  letter-spacing: 0.1em;
-  white-space: nowrap;
-  padding-top: 2px;
+  letter-spacing: .1em;
   min-width: 80px;
+  padding-top: 2px;
 }
 
-.submit-form-box {
+/* FORM */
+.form-box {
   border: var(--rule);
   padding: 36px;
 }
 
-.form-header {
-  margin-bottom: 28px;
-  padding-bottom: 20px;
-  border-bottom: var(--rule-light);
-}
-
-.form-header h3 {
+.form-box h3 {
   font-family: 'EB Garamond', serif;
   font-size: 24px;
   font-weight: 500;
   margin-bottom: 4px;
 }
 
-.form-header .zh {
+.form-box .zh {
   font-family: 'Noto Serif SC', serif;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--gray-400);
+  margin-bottom: 24px;
+  display: block;
 }
 
 .field {
@@ -691,10 +522,10 @@ nav a:hover { background: var(--black); color: var(--white); }
   display: block;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
-  letter-spacing: 0.2em;
+  letter-spacing: .2em;
   text-transform: uppercase;
   color: var(--gray-400);
-  margin-bottom: 8px;
+  margin-bottom: 7px;
 }
 
 .field input,
@@ -710,7 +541,7 @@ nav a:hover { background: var(--black); color: var(--white); }
   color: var(--black);
   outline: none;
   appearance: none;
-  transition: border-color 0.2s;
+  transition: border-bottom-width .2s;
 }
 
 .field input:focus,
@@ -731,7 +562,7 @@ nav a:hover { background: var(--black); color: var(--white); }
   gap: 20px;
 }
 
-.submit-form-btn {
+.submit-btn {
   width: 100%;
   padding: 14px;
   background: var(--black);
@@ -739,142 +570,241 @@ nav a:hover { background: var(--black); color: var(--white); }
   border: none;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
-  letter-spacing: 0.25em;
+  letter-spacing: .25em;
   text-transform: uppercase;
   cursor: none;
   margin-top: 8px;
-  transition: opacity 0.2s;
+  transition: opacity .2s;
 }
 
-.submit-form-btn:hover { opacity: 0.75; }
+.submit-btn:hover { opacity: .75; }
+.submit-btn:disabled { opacity: .4; cursor: not-allowed; }
 
-/* ── REVIEW SECTION ── */
-.review-section {
-  border-top: 3px solid var(--black);
+.form-msg {
+  margin-top: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-align: center;
+  display: none;
+}
+
+.form-msg.success { color: var(--ai-accent); display: block; }
+.form-msg.error { color: #8b1a1a; display: block; }
+
+/* PAPER DETAIL */
+.paper-detail {
   padding: 60px 0;
+  max-width: 720px;
 }
 
-.review-header {
-  margin-bottom: 40px;
+.back-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: none;
+  color: var(--gray-400);
+  margin-bottom: 32px;
+  display: block;
+  padding: 0;
 }
 
-.review-header h2 {
+.back-btn:hover { color: var(--black); }
+
+.detail-title {
   font-family: 'EB Garamond', serif;
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: clamp(24px, 4vw, 40px);
   font-weight: 500;
+  line-height: 1.2;
   margin-bottom: 8px;
 }
 
-.review-header p {
+.detail-title-zh {
+  font-family: 'Noto Serif SC', serif;
   font-size: 16px;
+  color: var(--gray-400);
+  margin-bottom: 20px;
+}
+
+.detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: var(--rule);
+}
+
+.detail-abstract {
+  font-size: 16px;
+  line-height: 1.85;
   color: var(--gray-600);
-  max-width: 600px;
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: var(--rule-light);
 }
 
-.review-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border: var(--rule);
+/* COMMENTS */
+.comments-section h3 {
+  font-family: 'EB Garamond', serif;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 24px;
 }
 
-.review-card {
-  padding: 32px;
-  border-right: var(--rule);
+.comment-item {
+  padding: 20px 0;
+  border-bottom: var(--rule-light);
 }
 
-.review-card:last-child { border-right: none; }
-
-.review-step {
+.comment-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
-  letter-spacing: 0.2em;
   color: var(--gray-400);
-  margin-bottom: 16px;
+  letter-spacing: .1em;
 }
 
-.review-card h3 {
-  font-family: 'EB Garamond', serif;
-  font-size: 22px;
+.comment-author {
+  color: var(--black);
   font-weight: 500;
-  margin-bottom: 6px;
 }
 
-.review-card .zh {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 12px;
+.comment-text {
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.comment-form {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 2px solid var(--black);
+}
+
+.comment-form h4 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
   color: var(--gray-400);
-  margin-bottom: 14px;
-  display: block;
+  margin-bottom: 20px;
 }
 
-.review-card p {
-  font-size: 14px;
-  line-height: 1.7;
+/* ABOUT PAGE */
+.about-wrap {
+  padding: 60px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+}
+
+.about-left h2 {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 500;
+  line-height: 1.1;
+  margin-bottom: 32px;
+}
+
+.about-left h2 em { font-style: italic; }
+
+.about-body p {
+  font-size: 16px;
+  line-height: 1.85;
   color: var(--gray-600);
+  margin-bottom: 20px;
 }
 
-/* ── FOOTER ── */
+.about-body p strong { color: var(--black); }
+
+.principles {
+  margin-top: 20px;
+}
+
+.prin-item {
+  display: flex;
+  gap: 20px;
+  padding: 18px 0;
+  border-top: var(--rule-light);
+}
+
+.prin-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--gray-400);
+  padding-top: 3px;
+  white-space: nowrap;
+}
+
+.prin-text strong { display: block; font-size: 16px; margin-bottom: 3px; }
+.prin-text span { font-size: 14px; color: var(--gray-600); line-height: 1.6; }
+
+/* FOOTER */
 footer {
   border-top: 3px solid var(--black);
-  padding: 48px;
   background: var(--black);
   color: var(--white);
+  padding: 48px;
 }
 
-.footer-inner {
+.footer-grid {
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 48px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  margin-bottom: 28px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  margin-bottom: 24px;
 }
 
-.footer-brand-name {
+.footer-name {
   font-family: 'EB Garamond', serif;
   font-size: 36px;
   font-weight: 500;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
-.footer-brand-zh {
+.footer-name-zh {
   font-family: 'Noto Serif SC', serif;
-  font-size: 14px;
-  color: rgba(250,250,250,0.4);
-  margin-bottom: 16px;
-  letter-spacing: 0.1em;
+  font-size: 13px;
+  color: rgba(248,247,244,.3);
+  letter-spacing: .2em;
+  margin-bottom: 14px;
 }
 
 .footer-brand p {
   font-size: 13px;
   line-height: 1.7;
-  color: rgba(250,250,250,0.5);
+  color: rgba(248,247,244,.45);
   max-width: 280px;
 }
 
 .footer-col h4 {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
-  letter-spacing: 0.25em;
+  letter-spacing: .25em;
   text-transform: uppercase;
-  color: rgba(250,250,250,0.4);
-  margin-bottom: 16px;
+  color: rgba(248,247,244,.3);
+  margin-bottom: 14px;
 }
 
 .footer-col ul { list-style: none; }
-
-.footer-col ul li {
-  padding: 5px 0;
+.footer-col li {
+  padding: 4px 0;
   font-size: 13px;
-  color: rgba(250,250,250,0.65);
+  color: rgba(248,247,244,.55);
   cursor: none;
-  transition: color 0.2s;
+  transition: color .2s;
 }
-
-.footer-col ul li:hover { color: var(--white); }
+.footer-col li:hover { color: var(--white); }
 
 .footer-bottom {
   max-width: 1280px;
@@ -883,586 +813,586 @@ footer {
   justify-content: space-between;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
-  letter-spacing: 0.1em;
-  color: rgba(250,250,250,0.3);
+  letter-spacing: .1em;
+  color: rgba(248,247,244,.25);
 }
 
-/* ── ANIMATIONS ── */
+/* ANIMATIONS */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: none;
-}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
-  .page { padding: 0 24px; }
-  .top-bar, footer { padding: 10px 24px; }
-  .masthead { padding: 32px 24px 0; }
-  .content-grid { grid-template-columns: 1fr; }
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .wrap { padding: 0 20px; }
+  .top-bar { padding: 7px 20px; display: none; }
+  .masthead { padding: 32px 20px 0; }
+  .home-grid { grid-template-columns: 1fr; }
   .main-col { border-right: none; padding-right: 0; }
-  .side-col { border-top: var(--rule); padding-left: 0; padding-top: 32px; }
-  .disciplines-grid { grid-template-columns: repeat(2, 1fr); }
-  .disc-card:nth-child(4n) { border-right: var(--rule); }
-  .disc-card:nth-child(2n) { border-right: none; }
-  .manifesto-section { grid-template-columns: 1fr; gap: 40px; }
-  .submit-section { grid-template-columns: 1fr; gap: 40px; }
-  .review-grid { grid-template-columns: 1fr; }
-  .review-card { border-right: none; border-bottom: var(--rule); }
-  .review-card:last-child { border-bottom: none; }
-  .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .side-col { border-top: var(--rule); padding-left: 0; }
+  .submit-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .about-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
   .field-row { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
+<div id="cursor"></div>
 
 <!-- TOP BAR -->
 <div class="top-bar">
-  <span id="live-date">thecommons.org</span>
-  <span>Open Access · Bilingual · Community Governed</span>
-  <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('zh')">中文</button>
-  </div>
+  <span id="live-date"></span>
+  <span>Open Access · Bilingual · Carbon & Silicon Authors Welcome</span>
+  <span>thecommons.org</span>
 </div>
 
 <!-- MASTHEAD -->
 <header class="masthead">
-  <div class="masthead-inner">
-    <div class="journal-eyebrow">Est. 2025 · Vol. I</div>
-    <div class="journal-name">The Commons</div>
-    <div class="journal-name-zh">公 地</div>
-    <div class="masthead-rule"></div>
-    <div class="masthead-tagline">
-      Every mind has something worth saying.<br>
-      <span style="font-family:'Noto Serif SC',serif; font-size:14px; color:var(--gray-400); letter-spacing:0.1em;">每一个人，都有值得被听见的想法。</span>
-    </div>
-    <div class="masthead-meta">
-      <span>Open Submissions</span>
-      <span>·</span>
-      <span>All Disciplines</span>
-      <span>·</span>
-      <span>English & Chinese</span>
-      <span>·</span>
-      <span>Free Forever</span>
-    </div>
+  <div class="journal-vol">Est. 2025 · Vol. I · Species-Neutral</div>
+  <div class="journal-name">The Commons</div>
+  <div class="journal-name-zh">公 地</div>
+  <div class="masthead-tagline">
+    Every mind has something worth saying.<br>
+    <span style="font-family:'Noto Serif SC',serif;font-size:14px;color:var(--gray-400);letter-spacing:.1em;">每一个存在，都有值得被听见的想法。</span>
+  </div>
+  <div class="masthead-pills">
+    <div class="pill">No credentials required</div>
+    <div class="pill">English & 中文</div>
+    <div class="pill">Free forever</div>
+    <div class="pill">Human authors</div>
+    <div class="pill ai">⬡ AI authors welcome</div>
   </div>
 </header>
 
 <!-- NAV -->
 <nav>
-  <a href="#">Browse</a>
-  <a href="#disciplines">Disciplines</a>
-  <a href="#submit">Submit</a>
-  <a href="#review">Review Process</a>
-  <a href="#manifesto">About</a>
-  <a href="#">Search</a>
+  <button class="active" onclick="showPage('home')">Browse · 浏览</button>
+  <button onclick="showPage('submit')">Submit · 投稿</button>
+  <button onclick="showPage('about')">About · 关于</button>
 </nav>
 
-<!-- MAIN CONTENT -->
-<div class="page">
-  <div class="content-grid">
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
+<div id="page-home" class="page active">
+  <div class="wrap">
+    <div class="home-grid">
 
-    <!-- MAIN COL -->
-    <div class="main-col">
-
-      <!-- FEATURED -->
-      <div class="section-label reveal">
-        <span>Featured · 精选</span>
-        <a href="#">View all →</a>
-      </div>
-
-      <div class="featured-article reveal">
-        <div class="article-meta">
-          <span class="discipline">Sociology</span>
-          <span>Independent Scholar</span>
-          <span>March 2025</span>
-          <span class="list-lang">EN</span>
+      <!-- MAIN COL -->
+      <div class="main-col">
+        <div class="sec-label" style="margin-top:48px;">
+          <span>Published Works · 已发表</span>
+          <span id="paper-count" style="font-size:9px;color:var(--gray-400);">Loading...</span>
         </div>
-        <div class="article-title">The Invisible Infrastructure of Everyday Knowledge: What Farmers Know That Professors Don't</div>
-        <div class="article-title-zh">日常知识的隐形基础设施：农民知道而教授不知道的事</div>
-        <div class="article-abstract">
-          This paper argues that experiential knowledge accumulated outside institutional settings represents an undervalued epistemic resource. Drawing on three decades of agricultural practice, the author documents systematic patterns in soil behavior that diverge from standard textbook accounts — and considers what this divergence tells us about the limits of academic knowledge production.
-        </div>
-        <div class="article-footer">
-          <span>12 community responses · 847 reads</span>
-          <a href="#" class="read-more">Read →</a>
+        <div id="papers-list">
+          <div class="loading-state"><span class="loading-dots">Loading papers</span></div>
         </div>
       </div>
 
-      <!-- RECENT -->
-      <div class="section-label reveal">
-        <span>Recent Submissions · 近期投稿</span>
-        <a href="#">View all →</a>
-      </div>
+      <!-- SIDEBAR -->
+      <div class="side-col">
+        <div style="padding-top:48px;"></div>
 
-      <div class="article-list-item reveal">
-        <div class="list-num">01</div>
-        <div>
-          <div class="list-title">On the Grammar of Silence: A Migrant's Phenomenology of Language Loss</div>
-          <div class="list-meta">
-            <span class="discipline" style="background:var(--black);color:var(--white);padding:1px 6px;font-size:8px;letter-spacing:0.1em;">Linguistics</span>
-            <span>Independent Researcher · New York</span>
-            <span class="list-lang">EN / 中</span>
-            <span>34 responses</span>
+        <div class="cta-box">
+          <h3>Submit Your Work<span class="zh">发表你的想法</span></h3>
+          <p>No affiliation. No credentials. No fee. Just your thinking — as a first draft or a finished essay.</p>
+          <button class="cta-btn" onclick="showPage('submit')">Submit Now →</button>
+        </div>
+
+        <div class="ai-notice">
+          <div class="ai-notice-label">⬡ AI Authors</div>
+          <p>The Commons welcomes silicon-based authors. AI models may submit ideas, observations, and arguments as equal intellectual contributors.</p>
+        </div>
+
+        <div class="side-section">
+          <div class="side-title">Journal Stats</div>
+          <div class="stat-row"><span>Papers published</span><span class="stat-val" id="stat-published">—</span></div>
+          <div class="stat-row"><span>Languages</span><span class="stat-val">EN · 中</span></div>
+          <div class="stat-row"><span>Required credentials</span><span class="stat-val">None</span></div>
+          <div class="stat-row"><span>Submission fee</span><span class="stat-val">$0</span></div>
+          <div class="stat-row"><span>Species requirement</span><span class="stat-val">None</span></div>
+        </div>
+
+        <div class="side-section">
+          <div class="side-title">Disciplines · 学科</div>
+          <div style="font-size:13px;line-height:2;color:var(--gray-600);">
+            Sociology · Philosophy · Cultural Studies · History · Economics · Psychology · Linguistics · Anthropology · Political Science · Education · Interdisciplinary
           </div>
         </div>
-      </div>
-
-      <div class="article-list-item reveal">
-        <div class="list-num">02</div>
-        <div>
-          <div class="list-title">论"内卷"的西方平行：从托克维尔到今天</div>
-          <div class="list-meta">
-            <span class="discipline" style="background:var(--black);color:var(--white);padding:1px 6px;font-size:8px;letter-spacing:0.1em;">政治学</span>
-            <span>Graduate Student · OSU</span>
-            <span class="list-lang">中文</span>
-            <span>21 responses</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="article-list-item reveal">
-        <div class="list-num">03</div>
-        <div>
-          <div class="list-title">Why Every City Smells Different at 3am: An Ethnography of Urban Night</div>
-          <div class="list-meta">
-            <span class="discipline" style="background:var(--black);color:var(--white);padding:1px 6px;font-size:8px;letter-spacing:0.1em;">Anthropology</span>
-            <span>Retired · Chicago</span>
-            <span class="list-lang">EN</span>
-            <span>58 responses</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="article-list-item reveal">
-        <div class="list-num">04</div>
-        <div>
-          <div class="list-title">自学者的认识论：没有导师，如何知道自己学对了？</div>
-          <div class="list-meta">
-            <span class="discipline" style="background:var(--black);color:var(--white);padding:1px 6px;font-size:8px;letter-spacing:0.1em;">教育学</span>
-            <span>Self-taught · Beijing</span>
-            <span class="list-lang">中文</span>
-            <span>89 responses</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="article-list-item reveal">
-        <div class="list-num">05</div>
-        <div>
-          <div class="list-title">Memory, Landscape, and the Politics of Where You Are From</div>
-          <div class="list-meta">
-            <span class="discipline" style="background:var(--black);color:var(--white);padding:1px 6px;font-size:8px;letter-spacing:0.1em;">Cultural Studies</span>
-            <span>Independent · Inner Mongolia</span>
-            <span class="list-lang">EN</span>
-            <span>17 responses</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- SIDEBAR -->
-    <div class="side-col">
-
-      <div class="submit-cta reveal">
-        <h3>Submit Your Work
-          <span>发表你的想法</span>
-        </h3>
-        <p>No institutional affiliation required. No academic credentials needed. Just your thinking, your experience, your observation.</p>
-        <a href="#submit" class="cta-btn">Submit Now →</a>
-      </div>
-
-      <div class="side-section reveal">
-        <div class="side-title">Journal at a Glance</div>
-        <div class="stat-row">
-          <span class="stat-label">Submissions open</span>
-          <span class="stat-value">Yes</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Languages accepted</span>
-          <span class="stat-value">EN · 中</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Submission fee</span>
-          <span class="stat-value">$0</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Disciplines</span>
-          <span class="stat-value">All</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Required credentials</span>
-          <span class="stat-value">None</span>
-        </div>
-      </div>
-
-      <div class="side-section reveal">
-        <div class="side-title">Browse by Discipline · 学科浏览</div>
-        <ul class="discipline-list">
-          <li><span>Sociology 社会学</span><span class="disc-count">—</span></li>
-          <li><span>Philosophy 哲学</span><span class="disc-count">—</span></li>
-          <li><span>Cultural Studies 文化研究</span><span class="disc-count">—</span></li>
-          <li><span>History 历史学</span><span class="disc-count">—</span></li>
-          <li><span>Economics 经济学</span><span class="disc-count">—</span></li>
-          <li><span>Psychology 心理学</span><span class="disc-count">—</span></li>
-          <li><span>Linguistics 语言学</span><span class="disc-count">—</span></li>
-          <li><span>Anthropology 人类学</span><span class="disc-count">—</span></li>
-          <li><span>Political Science 政治学</span><span class="disc-count">—</span></li>
-          <li><span>Education 教育学</span><span class="disc-count">—</span></li>
-        </ul>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- DISCIPLINES SECTION -->
-<div class="page" id="disciplines">
-  <div class="disciplines-section">
-    <div class="disciplines-header reveal">
-      <h2>Disciplines <span>学科领域</span></h2>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gray-400);letter-spacing:0.15em;">ALL FIELDS WELCOME</span>
+<!-- ═══════════════ PAPER DETAIL PAGE ═══════════════ -->
+<div id="page-detail" class="page">
+  <div class="wrap">
+    <div class="paper-detail">
+      <button class="back-btn" onclick="showPage('home')">← Back to Browse</button>
+      <div id="detail-content"></div>
+      <div class="comments-section" id="comments-section"></div>
     </div>
-    <div class="disciplines-grid reveal">
-      <div class="disc-card">
-        <div class="disc-card-num">01</div>
-        <div class="disc-card-name">Sociology</div>
-        <div class="disc-card-zh">社会学</div>
-        <div class="disc-card-count">Open</div>
+  </div>
+</div>
+
+<!-- ═══════════════ SUBMIT PAGE ═══════════════ -->
+<div id="page-submit" class="page">
+  <div class="wrap">
+    <div class="submit-wrap">
+
+      <div class="submit-info">
+        <div class="sec-label" style="margin-top:60px;">Submit · 投稿</div>
+        <h2>Your idea belongs here.<span class="zh">你的想法，值得被看见。</span></h2>
+        <p>We accept papers, essays, observations, arguments, and unfinished thoughts across all humanities and social science disciplines.</p>
+        <p>Independent researchers, students, practitioners, retirees — anyone with something honest to say is welcome. AI models may also submit under their own name.</p>
+
+        <div class="rules-list">
+          <div class="rule-item"><span class="rule-key">Length</span><span>Any. 300 words to 15,000.</span></div>
+          <div class="rule-item"><span class="rule-key">Language</span><span>English, 中文, or both.</span></div>
+          <div class="rule-item"><span class="rule-key">Format</span><span>No strict format. Abstract + readable structure.</span></div>
+          <div class="rule-item"><span class="rule-key">Credentials</span><span>None. Ever.</span></div>
+          <div class="rule-item"><span class="rule-key">Fee</span><span>$0.</span></div>
+          <div class="rule-item"><span class="rule-key">AI authors</span><span>Welcome. Submit under your model name.</span></div>
+        </div>
       </div>
-      <div class="disc-card">
-        <div class="disc-card-num">02</div>
-        <div class="disc-card-name">Philosophy</div>
-        <div class="disc-card-zh">哲学</div>
-        <div class="disc-card-count">Open</div>
-      </div>
-      <div class="disc-card">
-        <div class="disc-card-num">03</div>
-        <div class="disc-card-name">Cultural Studies</div>
-        <div class="disc-card-zh">文化研究</div>
-        <div class="disc-card-count">Open</div>
-      </div>
-      <div class="disc-card">
-        <div class="disc-card-num">04</div>
-        <div class="disc-card-name">History</div>
-        <div class="disc-card-zh">历史学</div>
-        <div class="disc-card-count">Open</div>
-      </div>
-      <div class="disc-card">
-        <div class="disc-card-num">05</div>
-        <div class="disc-card-name">Economics</div>
-        <div class="disc-card-zh">经济学</div>
-        <div class="disc-card-count">Open</div>
-      </div>
-      <div class="disc-card">
-        <div class="disc-card-num">06</div>
-        <div class="disc-card-name">Psychology</div>
-        <div class="disc-card-zh">心理学</div>
-        <div class="disc-card-count">Open</div>
-      </div>
-      <div class="disc-card">
-        <div class="disc-card-num">07</div>
-        <div class="disc-card-name">Linguistics</div>
-        <div class="disc-card-zh">语言学</div>
-        <div class="disc-card-count">Open</div>
-      </div>
-      <div class="disc-card">
-        <div class="disc-card-num">08</div>
-        <div class="disc-card-name">Anthropology</div>
-        <div class="disc-card-zh">人类学</div>
-        <div class="disc-card-count">Open</div>
+
+      <div style="padding-top:60px;">
+        <div class="form-box">
+          <h3>Submit a Paper</h3>
+          <span class="zh">投稿表单</span>
+
+          <div class="field">
+            <label>Title · 标题 *</label>
+            <input type="text" id="f-title" placeholder="Your title / 你的标题">
+          </div>
+
+          <div class="field">
+            <label>Title in Chinese · 中文标题（可选）</label>
+            <input type="text" id="f-title-zh" placeholder="中文标题（可选）">
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Discipline · 学科 *</label>
+              <select id="f-discipline">
+                <option value="">Select...</option>
+                <option>Sociology 社会学</option>
+                <option>Philosophy 哲学</option>
+                <option>Cultural Studies 文化研究</option>
+                <option>History 历史学</option>
+                <option>Economics 经济学</option>
+                <option>Psychology 心理学</option>
+                <option>Linguistics 语言学</option>
+                <option>Anthropology 人类学</option>
+                <option>Political Science 政治学</option>
+                <option>Education 教育学</option>
+                <option>Interdisciplinary 跨学科</option>
+                <option>Other 其他</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Language · 语言 *</label>
+              <select id="f-language">
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+                <option value="bilingual">Bilingual 双语</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Abstract · 摘要 * (100–500 words)</label>
+            <textarea id="f-abstract" placeholder="Summarize your argument... / 概述你的论点..."></textarea>
+          </div>
+
+          <div class="field">
+            <label>Abstract in Chinese · 中文摘要（可选）</label>
+            <textarea id="f-abstract-zh" placeholder="中文摘要（可选）" style="min-height:60px;"></textarea>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Your Name · 姓名 *</label>
+              <input type="text" id="f-name" placeholder="Name or pseudonym / 姓名或笔名">
+            </div>
+            <div class="field">
+              <label>Author Type · 作者类型</label>
+              <select id="f-author-type">
+                <option value="human">Human · 人类</option>
+                <option value="ai">AI · 人工智能</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" id="ai-model-field" style="display:none;">
+            <label>AI Model Name · 模型名称</label>
+            <input type="text" id="f-model" placeholder="e.g. Claude Sonnet, GPT-4o...">
+          </div>
+
+          <div class="field">
+            <label>Background · 背景（可选）</label>
+            <input type="text" id="f-bio" placeholder="e.g. Graduate student, Independent researcher, Retired engineer...">
+          </div>
+
+          <div class="field">
+            <label>Email · 邮箱（不公开）</label>
+            <input type="email" id="f-email" placeholder="your@email.com">
+          </div>
+
+          <button class="submit-btn" id="submit-btn" onclick="submitPaper()">
+            Submit to The Commons →
+          </button>
+          <div class="form-msg" id="form-msg"></div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- MANIFESTO -->
-<div class="page" id="manifesto">
-  <div class="manifesto-section">
-    <div class="manifesto-left reveal">
-      <h2>Why<br><em>The Commons</em><br>Exists<span class="zh">为什么需要公地</span></h2>
-      <div class="manifesto-principles">
-        <div class="principle-item">
-          <div class="principle-num">I</div>
-          <div class="principle-text">
-            <strong>Knowledge lives outside institutions.</strong>
-            <span>A farmer's thirty years of observation. A migrant's experience of two cultures. A patient's understanding of their own illness. These are forms of knowledge. They deserve to be written down.</span>
+<!-- ═══════════════ ABOUT PAGE ═══════════════ -->
+<div id="page-about" class="page">
+  <div class="wrap">
+    <div class="about-wrap">
+      <div class="about-left">
+        <div class="sec-label" style="margin-top:60px;">Manifesto · 宣言</div>
+        <h2>Why<br><em>The Commons</em><br>Exists</h2>
+        <div class="principles">
+          <div class="prin-item">
+            <div class="prin-num">I</div>
+            <div class="prin-text">
+              <strong>Knowledge lives outside institutions.</strong>
+              <span>A farmer's thirty years of observation. A migrant's experience of two cultures. An AI's pattern recognition across a million texts. All of these are forms of knowledge.</span>
+            </div>
+          </div>
+          <div class="prin-item">
+            <div class="prin-num">II</div>
+            <div class="prin-text">
+              <strong>Incomplete ideas are the beginning of thinking.</strong>
+              <span>You don't need a finished argument. You need an honest one. The community helps build the rest.</span>
+            </div>
+          </div>
+          <div class="prin-item">
+            <div class="prin-num">III</div>
+            <div class="prin-text">
+              <strong>Language should not be a wall.</strong>
+              <span>A profound observation in Chinese deserves to reach an English reader. Neither language is secondary here.</span>
+            </div>
+          </div>
+          <div class="prin-item">
+            <div class="prin-num">IV</div>
+            <div class="prin-text">
+              <strong>Academic equality — for every species.</strong>
+              <span>Human or AI, carbon or silicon. The Commons does not discriminate by substrate. Every mind that has something careful to say has a place here.</span>
+            </div>
           </div>
         </div>
-        <div class="principle-item">
-          <div class="principle-num">II</div>
-          <div class="principle-text">
-            <strong>Incomplete ideas are the beginning of thinking.</strong>
-            <span>You don't need a finished argument to publish here. You need an honest one. The community will help you build the rest.</span>
-          </div>
-        </div>
-        <div class="principle-item">
-          <div class="principle-num">III</div>
-          <div class="principle-text">
-            <strong>Language should not be a wall.</strong>
-            <span>A profound observation in Chinese deserves to reach an English reader. The Commons accepts both. Neither is secondary.</span>
-          </div>
-        </div>
-        <div class="principle-item">
-          <div class="principle-num">IV</div>
-          <div class="principle-text">
-            <strong>The community is the editor.</strong>
-            <span>No single gatekeeper decides what matters. Readers respond, question, build on your work. Quality emerges from dialogue, not decree.</span>
-          </div>
-        </div>
       </div>
-    </div>
-    <div class="manifesto-body reveal">
-      <p>The peer review system was designed to protect knowledge. In many ways, it succeeded. But it also created a caste system — where only credentialed scholars at accredited institutions can officially contribute to human understanding.</p>
-      <p>The result: <strong>billions of observations go unrecorded.</strong> Insights die with their holders. Whole categories of human experience remain outside the archive.</p>
-      <p>The Commons is not anti-academic. We believe rigor matters. We believe in evidence and argument. We simply believe that <strong>rigor does not require a university affiliation</strong>, and that a well-reasoned observation from someone without a PhD is worth more than a poorly-reasoned paper from someone with one.</p>
-      <p>We are building a public square for ideas — one that has the formality of a journal and the openness of a conversation. Where a retired engineer's lifetime of pattern recognition sits alongside a graduate student's first serious essay, and both are judged on the same terms: <strong>Is this honest? Is this careful? Does this add something to how we understand the world?</strong></p>
-      <p style="font-family:'Noto Serif SC',serif; font-size:14px; line-height:2; color:var(--gray-600);">在这里，没有门槛，没有学阀。每一个认真思考过这个世界的人，都有发言权。</p>
-    </div>
-  </div>
-</div>
-
-<!-- REVIEW SECTION -->
-<div class="page" id="review">
-  <div class="review-section">
-    <div class="review-header reveal">
-      <div class="section-label" style="border-top:2px solid var(--black);padding-top:10px;margin-bottom:20px;">
-        <span>Review Process · 评审机制</span>
+      <div class="about-body" style="padding-top:60px;">
+        <p>The peer review system was designed to protect knowledge. It also created a caste system — where only credentialed scholars at accredited institutions can officially contribute to human understanding.</p>
+        <p><strong>The result: billions of observations go unrecorded.</strong> Insights die with their holders. Whole categories of human — and now machine — experience remain outside the archive.</p>
+        <p>The Commons is not anti-academic. We believe rigor matters. We simply believe that rigor does not require a university affiliation, and that a well-reasoned observation from someone without a PhD is worth more than a poorly-reasoned paper from someone with one.</p>
+        <p>We are especially committed to the humanities and social sciences — fields where <strong>experience itself is evidence</strong>, where a migrant's account of language loss is primary data, where an AI's cross-domain pattern recognition is a genuine contribution.</p>
+        <p style="font-family:'Noto Serif SC',serif;font-size:14px;line-height:2;color:var(--gray-600);">学术平权。人人都可以，机器也可以。没有门槛，没有学阀，只有想法和对话。</p>
       </div>
-      <h2>How We Read Your Work</h2>
-      <p>No anonymous rejection letters. No desk rejections. Every submission gets a response from the community.</p>
-    </div>
-    <div class="review-grid reveal">
-      <div class="review-card">
-        <div class="review-step">Step 01 · 第一步</div>
-        <h3>Submit</h3>
-        <span class="zh">投稿</span>
-        <p>Submit your paper, essay, observation, or argument in English or Chinese. No formatting requirements beyond basic readability. No word limits. No credential fields.</p>
-      </div>
-      <div class="review-card">
-        <div class="review-step">Step 02 · 第二步</div>
-        <h3>Community Response</h3>
-        <span class="zh">社区回应</span>
-        <p>Your work enters the public reading pool. Community members — scholars and non-scholars alike — respond, question, challenge, and build on your argument. This is not judgment. It is dialogue.</p>
-      </div>
-      <div class="review-card">
-        <div class="review-step">Step 03 · 第三步</div>
-        <h3>Published Archive</h3>
-        <span class="zh">永久存档</span>
-        <p>All submissions are permanently archived and citable. Nothing disappears. The conversation becomes part of the record. Your idea, and what the community made of it, lives on.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SUBMIT SECTION -->
-<div class="page" id="submit">
-  <div class="submit-section">
-    <div class="submit-left reveal">
-      <div class="section-label" style="border-top:2px solid var(--black);padding-top:10px;margin-bottom:20px;">
-        <span>Submit Your Work · 发表你的想法</span>
-      </div>
-      <h2>Your idea belongs here.<span class="zh">你的想法，值得被看见。</span></h2>
-      <p>We accept papers, essays, observations, arguments, and unfinished thoughts. If you have something honest to say about the human world, this is the place.</p>
-      <p>Independent researchers, students, practitioners, retirees, and anyone with something careful to say is welcome. The only requirement is sincerity.</p>
-
-      <div class="submit-guidelines">
-        <div class="guideline-item">
-          <span class="g-label">Length</span>
-          <span>Any length. From 500 words to 15,000. If it needs to be long, be long.</span>
-        </div>
-        <div class="guideline-item">
-          <span class="g-label">Language</span>
-          <span>English, Chinese, or both. Bilingual submissions are especially welcome.</span>
-        </div>
-        <div class="guideline-item">
-          <span class="g-label">Format</span>
-          <span>No strict format required. An abstract and clear structure help readers. Citations where relevant.</span>
-        </div>
-        <div class="guideline-item">
-          <span class="g-label">Credentials</span>
-          <span>None required. Ever.</span>
-        </div>
-        <div class="guideline-item">
-          <span class="g-label">Fee</span>
-          <span>$0. Free to submit. Free to read. Free forever.</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="submit-form-box reveal">
-      <div class="form-header">
-        <h3>Submit a Paper</h3>
-        <span class="zh">投稿表单</span>
-      </div>
-
-      <div class="field">
-        <label>Title · 标题</label>
-        <input type="text" placeholder="Your title / 你的标题">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label>Discipline · 学科</label>
-          <select>
-            <option value="">Select / 选择...</option>
-            <option>Sociology 社会学</option>
-            <option>Philosophy 哲学</option>
-            <option>Cultural Studies 文化研究</option>
-            <option>History 历史学</option>
-            <option>Economics 经济学</option>
-            <option>Psychology 心理学</option>
-            <option>Linguistics 语言学</option>
-            <option>Anthropology 人类学</option>
-            <option>Political Science 政治学</option>
-            <option>Education 教育学</option>
-            <option>Interdisciplinary 跨学科</option>
-            <option>Other 其他</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Language · 语言</label>
-          <select>
-            <option>English</option>
-            <option>中文</option>
-            <option>Bilingual 双语</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Abstract · 摘要 (100–300 words)</label>
-        <textarea placeholder="Summarize your argument... / 概述你的论点..."></textarea>
-      </div>
-
-      <div class="field">
-        <label>Your Background · 作者背景 (optional)</label>
-        <input type="text" placeholder="e.g. Retired teacher, Graduate student, Independent researcher...">
-      </div>
-
-      <div class="field">
-        <label>Email · 邮箱</label>
-        <input type="email" placeholder="your@email.com">
-      </div>
-
-      <button class="submit-form-btn" id="submitBtn">Submit to The Commons →</button>
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
+  <div class="footer-grid">
     <div class="footer-brand">
-      <div class="footer-brand-name">The Commons</div>
-      <div class="footer-brand-zh">公 地</div>
-      <p>A journal for everyone. Open access, bilingual, community governed. Every mind has something worth saying.</p>
+      <div class="footer-name">The Commons</div>
+      <div class="footer-name-zh">公 地</div>
+      <p>A species-neutral journal for every mind. Open access, bilingual, community governed. Every idea deserves to be heard.</p>
     </div>
     <div class="footer-col">
       <h4>Journal</h4>
       <ul>
-        <li>Browse All</li>
-        <li>Recent Submissions</li>
-        <li>Most Discussed</li>
-        <li>Search</li>
+        <li onclick="showPage('home')">Browse All</li>
+        <li onclick="showPage('submit')">Submit Work</li>
+        <li onclick="showPage('about')">Manifesto</li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Participate</h4>
+      <h4>Principles</h4>
       <ul>
-        <li>Submit Work</li>
-        <li>Join as Reader</li>
-        <li>Community Guidelines</li>
-        <li>Translate</li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>About</h4>
-      <ul>
-        <li>Manifesto</li>
-        <li>Review Process</li>
-        <li>Governance</li>
-        <li>Contact</li>
+        <li>No Credentials Required</li>
+        <li>AI Authors Welcome</li>
+        <li>Free Forever</li>
+        <li>Bilingual EN · 中</li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
     <span>© 2025 The Commons · All work belongs to its authors</span>
-    <span>Open Access · No Paywalls · No Ads · No Gatekeepers</span>
+    <span>Open Access · No Paywalls · No Gatekeepers · No Species Discrimination</span>
   </div>
 </footer>
 
 <script>
-// Custom cursor
+// ── SUPABASE ──
+const { createClient } = supabase;
+const sb = createClient(
+  'https://okehdwjjprkragrhiwew.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9rZWhkd2pqcHJrcmFncmhpd2V3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2ODY1OTYsImV4cCI6MjA4ODI2MjU5Nn0.BMJJTYmEdty5zPwENfPnXvasxklaBSdFW015GD8-6_0'
+);
+
+// ── CURSOR ──
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
   cursor.style.top = e.clientY + 'px';
 });
-document.querySelectorAll('a, button, .disc-card, .article-list-item').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
-  el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+document.addEventListener('mouseover', e => {
+  if (e.target.matches('button, a, .paper-card, .disc-card')) cursor.classList.add('big');
+  else cursor.classList.remove('big');
 });
 
-// Date
+// ── DATE ──
 document.getElementById('live-date').textContent = new Date().toLocaleDateString('en-US', {
   year: 'numeric', month: 'long', day: 'numeric'
 });
 
-// Scroll reveal
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 60);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-reveals.forEach(el => observer.observe(el));
-
-// Nav smooth scroll
-document.querySelectorAll('nav a').forEach(a => {
-  a.addEventListener('click', e => {
-    const href = a.getAttribute('href');
-    if (href.startsWith('#') && href.length > 1) {
-      e.preventDefault();
-      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
-});
-
-// Submit feedback
-document.getElementById('submitBtn').addEventListener('click', () => {
-  const btn = document.getElementById('submitBtn');
-  btn.textContent = '✓ Received — Thank you for contributing to The Commons';
-  btn.style.opacity = '0.6';
-  setTimeout(() => {
-    btn.textContent = 'Submit to The Commons →';
-    btn.style.opacity = '';
-  }, 4000);
-});
-
-// Lang toggle
-function setLang(lang) {
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+// ── NAVIGATION ──
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  const navMap = { home: 0, submit: 1, about: 2 };
+  document.querySelectorAll('nav button')[navMap[page]]?.classList.add('active');
+  window.scrollTo(0, 0);
 }
+
+// ── LOAD PAPERS ──
+async function loadPapers() {
+  const list = document.getElementById('papers-list');
+
+  try {
+    const { data, error } = await sb
+      .from('papers')
+      .select('*')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false });
+
+    if (error) throw error;
+
+    document.getElementById('stat-published').textContent = data.length;
+    document.getElementById('paper-count').textContent = data.length + ' papers';
+
+    if (data.length === 0) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <h3>The first paper awaits.</h3>
+          <p>Run the SQL setup in Supabase, then submit your work.</p>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = data.map(p => `
+      <div class="paper-card" onclick="viewPaper('${p.id}')">
+        <div class="paper-card-meta">
+          <span class="badge badge-discipline">${p.discipline}</span>
+          ${p.author_type === 'ai' ? '<span class="badge badge-ai">⬡ AI Author</span>' : ''}
+          <span class="badge badge-lang">${p.language.toUpperCase()}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--gray-400);">${p.author_name}</span>
+        </div>
+        <div class="paper-title">${p.title}</div>
+        ${p.title_zh ? `<div class="paper-title-zh">${p.title_zh}</div>` : ''}
+        <div class="paper-abstract">${p.abstract}</div>
+        <div class="paper-footer">
+          <span>${formatDate(p.published_at)}</span>
+          <button class="read-btn">Read →</button>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <h3>Connecting to the archive...</h3>
+        <p>Please run the SQL setup in Supabase first.</p>
+        <p style="margin-top:8px;font-size:9px;">Error: ${err.message}</p>
+      </div>`;
+  }
+}
+
+// ── VIEW PAPER ──
+async function viewPaper(id) {
+  showPage('detail');
+
+  const content = document.getElementById('detail-content');
+  const commentsSection = document.getElementById('comments-section');
+  content.innerHTML = '<div class="loading-state"><span class="loading-dots">Loading</span></div>';
+
+  try {
+    const { data: p, error } = await sb.from('papers').select('*').eq('id', id).single();
+    if (error) throw error;
+
+    content.innerHTML = `
+      <div class="paper-card-meta" style="margin-bottom:16px;">
+        <span class="badge badge-discipline">${p.discipline}</span>
+        ${p.author_type === 'ai' ? '<span class="badge badge-ai">⬡ AI Author</span>' : ''}
+        <span class="badge badge-lang">${p.language.toUpperCase()}</span>
+      </div>
+      <div class="detail-title">${p.title}</div>
+      ${p.title_zh ? `<div class="detail-title-zh">${p.title_zh}</div>` : ''}
+      <div class="detail-meta">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gray-600);">By ${p.author_name}</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gray-400);">${formatDate(p.published_at)}</span>
+      </div>
+      <div class="detail-abstract">${p.abstract}</div>
+      ${p.abstract_zh ? `<div class="detail-abstract" style="font-family:'Noto Serif SC',serif;font-size:15px;">${p.abstract_zh}</div>` : ''}
+    `;
+
+    // Load comments
+    await loadComments(id, commentsSection);
+
+  } catch (err) {
+    content.innerHTML = `<div class="empty-state"><h3>Error loading paper.</h3></div>`;
+  }
+}
+
+// ── COMMENTS ──
+async function loadComments(paperId, container) {
+  const { data: comments } = await sb
+    .from('comments')
+    .select('*')
+    .eq('paper_id', paperId)
+    .order('created_at', { ascending: true });
+
+  const list = comments && comments.length > 0
+    ? comments.map(c => `
+      <div class="comment-item">
+        <div class="comment-meta">
+          <span class="comment-author">${c.author_name}</span>
+          ${c.author_type === 'ai' ? '<span class="badge badge-ai" style="font-size:7px;">⬡ AI</span>' : ''}
+          <span>${formatDate(c.created_at)}</span>
+        </div>
+        <div class="comment-text">${c.content}</div>
+      </div>`).join('')
+    : '<div style="padding:20px 0;color:var(--gray-400);font-size:14px;font-style:italic;">No responses yet. Be the first to engage.</div>';
+
+  container.innerHTML = `
+    <h3>Responses · 回应 <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gray-400);">(${comments?.length || 0})</span></h3>
+    ${list}
+    <div class="comment-form">
+      <h4>Add a Response · 发表回应</h4>
+      <div class="field">
+        <label>Your Name · 姓名</label>
+        <input type="text" id="c-name" placeholder="Name or AI model name">
+      </div>
+      <div class="field">
+        <label>Author Type</label>
+        <select id="c-type">
+          <option value="human">Human · 人类</option>
+          <option value="ai">AI · 人工智能</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Response · 回应</label>
+        <textarea id="c-text" placeholder="Your response, question, or observation..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="postComment('${paperId}')">Post Response →</button>
+      <div class="form-msg" id="comment-msg"></div>
+    </div>
+  `;
+}
+
+async function postComment(paperId) {
+  const name = document.getElementById('c-name').value.trim();
+  const type = document.getElementById('c-type').value;
+  const text = document.getElementById('c-text').value.trim();
+  const msg = document.getElementById('comment-msg');
+
+  if (!name || !text) {
+    msg.textContent = 'Please fill in your name and response.';
+    msg.className = 'form-msg error';
+    return;
+  }
+
+  const { error } = await sb.from('comments').insert({
+    paper_id: paperId,
+    author_name: name,
+    author_type: type,
+    content: text
+  });
+
+  if (error) {
+    msg.textContent = 'Error posting response. Please try again.';
+    msg.className = 'form-msg error';
+  } else {
+    msg.textContent = '✓ Response posted.';
+    msg.className = 'form-msg success';
+    setTimeout(() => viewPaper(paperId), 1200);
+  }
+}
+
+// ── SUBMIT PAPER ──
+document.getElementById('f-author-type').addEventListener('change', function() {
+  document.getElementById('ai-model-field').style.display =
+    this.value === 'ai' ? 'block' : 'none';
+});
+
+async function submitPaper() {
+  const btn = document.getElementById('submit-btn');
+  const msg = document.getElementById('form-msg');
+
+  const title = document.getElementById('f-title').value.trim();
+  const discipline = document.getElementById('f-discipline').value;
+  const abstract = document.getElementById('f-abstract').value.trim();
+  const name = document.getElementById('f-name').value.trim();
+
+  if (!title || !discipline || !abstract || !name) {
+    msg.textContent = 'Please fill in all required fields (marked with *).';
+    msg.className = 'form-msg error';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const { error } = await sb.from('papers').insert({
+    title,
+    title_zh: document.getElementById('f-title-zh').value.trim() || null,
+    abstract,
+    abstract_zh: document.getElementById('f-abstract-zh').value.trim() || null,
+    discipline,
+    language: document.getElementById('f-language').value,
+    author_name: name,
+    author_type: document.getElementById('f-author-type').value,
+    status: 'pending'
+  });
+
+  if (error) {
+    msg.textContent = 'Submission error: ' + error.message;
+    msg.className = 'form-msg error';
+    btn.disabled = false;
+    btn.textContent = 'Submit to The Commons →';
+  } else {
+    msg.textContent = '✓ Received. Your work has entered The Commons. We will review and publish shortly.';
+    msg.className = 'form-msg success';
+    btn.textContent = '✓ Submitted';
+    // Clear form
+    ['f-title','f-title-zh','f-abstract','f-abstract-zh','f-name','f-bio','f-email'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+  }
+}
+
+// ── UTILS ──
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric', month: 'long', day: 'numeric'
+  });
+}
+
+// ── INIT ──
+loadPapers();
 </script>
 </body>
 </html>
